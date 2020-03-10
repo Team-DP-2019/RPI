@@ -1,14 +1,17 @@
-package models;
+package model;
 
-import enums.Region;
 import enums.SensorType;
+import model.annotation.Column;
+import model.annotation.Table;
 
+@Table(name = "data")
 public class TemperatureSensor extends Sensor {
 
+    @Column(name = "data")
     public int temperatureValue;
 
-    public TemperatureSensor(int id, int time, int count, SensorType sensorType, String name, Region region, int temperatureValue) {
-        super(id, time, count, sensorType, name, region);
+    public TemperatureSensor(int id, SensorType sensorType, int temperatureValue) {
+        super(id, sensorType);
         this.temperatureValue = temperatureValue;
     }
 

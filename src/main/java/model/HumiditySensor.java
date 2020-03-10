@@ -1,14 +1,17 @@
-package models;
+package model;
 
-import enums.Region;
 import enums.SensorType;
+import model.annotation.Column;
+import model.annotation.Table;
 
+@Table(name = "data")
 public class HumiditySensor extends Sensor {
 
+    @Column(name = "data")
     private int humidityValue;
 
-    public HumiditySensor(int id, int time, int count, SensorType sensorType, String name, Region region, int humidityValue) {
-        super(id, time, count, sensorType, name, region);
+    public HumiditySensor(int id, SensorType sensorType, int humidityValue) {
+        super(id, sensorType);
         this.humidityValue = humidityValue;
     }
 
