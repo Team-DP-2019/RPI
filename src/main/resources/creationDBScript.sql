@@ -12,6 +12,9 @@ SET @OLD_SQL_MODE = @@SQL_MODE, SQL_MODE =
 -- -----------------------------------------------------
 -- Schema GreenHouseDB
 -- -----------------------------------------------------
+
+DROP DATABASE IF EXISTS `GreenHouseDB`;
+
 CREATE SCHEMA IF NOT EXISTS `GreenHouseDB` DEFAULT CHARACTER SET utf8;
 USE `GreenHouseDB`;
 
@@ -35,6 +38,7 @@ CREATE TABLE IF NOT EXISTS `GreenHouseDB`.`data`
     `id`        INT   NOT NULL AUTO_INCREMENT,
     `sensor_id` INT   NOT NULL,
     `data`      FLOAT NOT NULL,
+    `timestamp` DATETIME NOT NULL,
     PRIMARY KEY (`id`),
     INDEX `fk_data_sensor_idx` (`sensor_id` ASC) VISIBLE,
     CONSTRAINT `fk_data_sensor`
