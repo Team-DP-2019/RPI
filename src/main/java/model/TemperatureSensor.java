@@ -8,14 +8,14 @@ import model.annotation.Table;
 public class TemperatureSensor extends Sensor {
 
     @Column(name = "data")
-    public int temperatureValue;
+    public double temperatureValue;
 
-    public TemperatureSensor(int id, SensorType sensorType, int temperatureValue) {
+    public TemperatureSensor(int id, SensorType sensorType, double temperatureValue) {
         super(id, sensorType);
         this.temperatureValue = temperatureValue;
     }
 
-    public int getTemperatureValue() {
+    public double getTemperatureValue() {
         return temperatureValue;
     }
 

@@ -8,14 +8,14 @@ import model.annotation.Table;
 public class HumiditySensor extends Sensor {
 
     @Column(name = "data")
-    private int humidityValue;
+    private double humidityValue;
 
-    public HumiditySensor(int id, SensorType sensorType, int humidityValue) {
+    public HumiditySensor(int id, SensorType sensorType, double humidityValue) {
         super(id, sensorType);
         this.humidityValue = humidityValue;
     }
 
-    public int getHumidityValue() {
+    public double getHumidityValue() {
         return humidityValue;
     }
 
