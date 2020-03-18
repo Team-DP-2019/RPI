@@ -6,12 +6,28 @@ import model.Sensor;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
 public class SensorDAOImpl implements SensorDAO {
 
     private static final String CREATE = "INSERT sensor (type) VALUES (?)";
+    private static final String GET_MAX_ID = "SELECT * FROM sensor";
+
+    @Override
+    public Integer getMaxId() throws SQLException {
+        ResultSet resultSet = ConnectionManager
+                .getConnection()
+                .prepareStatement(GET_MAX_ID)
+                .executeQuery();
+        if (resultSet.next()) {
+            resultSet.last();
+            return resultSet.getInt("id");
+        } else {
+            return 0;
+        }
+    }
 
     @Override
     public List<Sensor> findAll() throws SQLException {
