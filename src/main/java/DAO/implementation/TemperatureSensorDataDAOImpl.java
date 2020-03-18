@@ -7,11 +7,12 @@ import model.TemperatureSensor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
 
 public class TemperatureSensorDataDAOImpl implements TemperatureSensorDataDAO {
 
-    private static final String CREATE = "INSERT data (sensor_id, data) VALUES (?, ?)";
+    private static final String CREATE = "INSERT data (sensor_id, data, timestamp) VALUES (?, ?, ?)";
 
     @Override
     public List<TemperatureSensor> findAll() throws SQLException {
@@ -29,6 +30,7 @@ public class TemperatureSensorDataDAOImpl implements TemperatureSensorDataDAO {
         try (PreparedStatement ps = conn.prepareStatement(CREATE)) {
             ps.setInt(1, entity.getId());
             ps.setDouble(2, entity.getTemperatureValue());
+            ps.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
             return ps.executeUpdate();
         }
     }
