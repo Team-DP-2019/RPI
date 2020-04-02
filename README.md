@@ -12,5 +12,8 @@ in the other terminal
 ./target/mqtt-sample publisher '{"id":1,"sensorType":"Temperature","temperatureValue":10.0}'
 
 
-grafana 1234567890
+brew services start grafana
+grafana 1-0
+
+
 
