@@ -1,39 +1,59 @@
 package manager;
 
-import DAO.HumiditySensorDataDAO;
-import DAO.implementation.HumiditySensorDataDAOImpl;
+import DAO.implementation.DataDAOImpl;
 import DAO.implementation.SensorDAOImpl;
-import DAO.implementation.TemperatureSensorDataDAOImpl;
-import connectionProperty.ConnectionManager;
-import enums.SensorType;
-import model.HumiditySensor;
-import model.Sensor;
-import model.TemperatureSensor;
+import DAO.implementation.SensorTypeDAOImpl;
+import entity.DataEntity;
+import entity.SensorEntity;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Puller {
-    private Sensor sensor;
     private SensorDAOImpl sensorDAO = new SensorDAOImpl();
-    private HumiditySensor humiditySensor;
-    private HumiditySensorDataDAOImpl humiditySensorDataDAO = new HumiditySensorDataDAOImpl();
-    private TemperatureSensor temperatureSensor;
-    private TemperatureSensorDataDAOImpl temperatureSensorDataDAO = new TemperatureSensorDataDAOImpl();
+    private SensorTypeDAOImpl sensorTypeDAO = new SensorTypeDAOImpl();
+    private DataDAOImpl dataDAO = new DataDAOImpl();
 
-    public void insert(Integer id, SensorType type, double value) throws SQLException {
-
-        if (id > sensorDAO.getMaxId()) {
-            sensor = new Sensor(id, type);
-            sensorDAO.create(sensor);
+    public boolean isUidInDB(Integer Uid) throws SQLException {
+        ResultSet resultSet = sensorDAO.findAll();
+        while (resultSet.next()) {
+            if (resultSet.getInt("Uid") == Uid) {
+                return true;
+            }
         }
-        if (type.equals(SensorType.Humidity)) {
-            humiditySensor = new HumiditySensor(id, type, value);
-            humiditySensorDataDAO.create(humiditySensor);
-        } else if (type.equals(SensorType.Temperature)) {
-            temperatureSensor = new TemperatureSensor(id, type, value);
-            temperatureSensorDataDAO.create(temperatureSensor);
+        return false;
+    }
+
+    public int getIdByUid(Integer Uid) throws SQLException {
+        ResultSet resultSet = sensorDAO.findAll();
+        while (resultSet.next()) {
+            if (resultSet.getInt("Uid") == Uid) {
+                return resultSet.getInt("id");
+            }
+        }
+        return 0;
+    }
+
+    public boolean isTypeIdInTable(int id) throws SQLException {
+        ResultSet resultSet = sensorTypeDAO.findAll();
+        while (resultSet.next()) {
+            if (resultSet.getInt("id") == id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void insert(Integer Uid, Integer typeId, double value) throws Exception {
+        if (isTypeIdInTable(typeId)) {
+            if (!isUidInDB(Uid)) {
+                SensorEntity sensor = new SensorEntity(Uid, typeId);
+                sensorDAO.create(sensor);
+            }
+            DataEntity dataEntity = new DataEntity(getIdByUid(Uid), value);
+            dataDAO.create(dataEntity);
+        } else {
+            throw new Exception("Table Id Does not exist");
         }
     }
 }

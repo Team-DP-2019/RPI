@@ -2,54 +2,44 @@ package DAO.implementation;
 
 import DAO.SensorDAO;
 import connectionProperty.ConnectionManager;
-import model.Sensor;
+import entity.SensorEntity;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 public class SensorDAOImpl implements SensorDAO {
 
-    private static final String CREATE = "INSERT sensor (type) VALUES (?)";
-    private static final String GET_MAX_ID = "SELECT * FROM sensor";
+    private static final String CREATE = "INSERT sensor (Uid, sensor_type_id) VALUES (?, ?)";
+    private static final String FIND_ALL = "SELECT * FROM sensor";
 
     @Override
-    public Integer getMaxId() throws SQLException {
+    public ResultSet findAll() throws SQLException {
         ResultSet resultSet = ConnectionManager
                 .getConnection()
-                .prepareStatement(GET_MAX_ID)
+                .prepareStatement(FIND_ALL)
                 .executeQuery();
-        if (resultSet.next()) {
-            resultSet.last();
-            return resultSet.getInt("id");
-        } else {
-            return 0;
-        }
+        return resultSet;
     }
 
     @Override
-    public List<Sensor> findAll() throws SQLException {
+    public SensorEntity findById(Integer integer) throws SQLException {
         return null;
     }
 
     @Override
-    public Sensor findById(Integer integer) throws SQLException {
-        return null;
-    }
-
-    @Override
-    public int create(Sensor entity) throws SQLException {
+    public int create(SensorEntity entity) throws SQLException {
         Connection conn = ConnectionManager.getConnection();
         try (PreparedStatement ps = conn.prepareStatement(CREATE)) {
-            ps.setString(1, entity.getSensorType().toString());
+            ps.setInt(1, entity.getUid());
+            ps.setInt(2, entity.getSensorType());
             return ps.executeUpdate();
         }
     }
 
     @Override
-    public int update(Sensor entity) throws SQLException {
+    public int update(SensorEntity entity) throws SQLException {
         return 0;
     }
 

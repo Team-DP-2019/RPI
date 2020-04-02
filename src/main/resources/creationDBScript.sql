@@ -23,9 +23,16 @@ USE `GreenHouseDB`;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `GreenHouseDB`.`sensor`
 (
-    `id`   INT         NOT NULL AUTO_INCREMENT,
-    `type` VARCHAR(45) NOT NULL,
-    PRIMARY KEY (`id`)
+    `id`             INT NOT NULL AUTO_INCREMENT,
+    `Uid`            INT NOT NULL,
+    `sensor_type_id` INT NOT NULL,
+    PRIMARY KEY (`id`),
+    INDEX fk_sensor_sensor_type_idx (sensor_type_id ASC) VISIBLE,
+    CONSTRAINT fk_sensor_sensor_type
+        FOREIGN KEY (sensor_type_id)
+            REFERENCES GreenHouseDB.sensor_type (id)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION
 )
     ENGINE = InnoDB;
 
@@ -35,9 +42,9 @@ CREATE TABLE IF NOT EXISTS `GreenHouseDB`.`sensor`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `GreenHouseDB`.`data`
 (
-    `id`        INT   NOT NULL AUTO_INCREMENT,
-    `sensor_id` INT   NOT NULL,
-    `data`      FLOAT NOT NULL,
+    `id`        INT      NOT NULL AUTO_INCREMENT,
+    `sensor_id` INT      NOT NULL,
+    `data`      FLOAT    NOT NULL,
     `timestamp` DATETIME NOT NULL,
     PRIMARY KEY (`id`),
     INDEX `fk_data_sensor_idx` (`sensor_id` ASC) VISIBLE,
@@ -50,6 +57,22 @@ CREATE TABLE IF NOT EXISTS `GreenHouseDB`.`data`
     ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `GreenHouseDB`.`sensor_type`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `GreenHouseDB`.`sensor_type`
+(
+    `id`   INT NOT NULL AUTO_INCREMENT,
+    `type` VARCHAR(20) NOT NULL,
+    PRIMARY KEY (`id`)
+)
+    ENGINE = InnoDB;
+
+
 SET SQL_MODE = @OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS = @OLD_UNIQUE_CHECKS;
+
+insert into sensor_type
+values (1, 'Temp'),
+       (2, 'Hum');

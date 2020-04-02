@@ -1,10 +1,10 @@
 package DAO;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 public interface GeneralDAO<T, ID> {
-    List<T> findAll() throws SQLException;
+    ResultSet findAll() throws SQLException;
 
     T findById(ID id) throws SQLException;
 

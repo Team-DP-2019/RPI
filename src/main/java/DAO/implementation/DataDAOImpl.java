@@ -1,40 +1,38 @@
 package DAO.implementation;
 
-import DAO.HumiditySensorDataDAO;
+import DAO.DataDAO;
 import connectionProperty.ConnectionManager;
-import model.HumiditySensor;
+import entity.DataEntity;
 
 import java.sql.*;
-import java.util.List;
 
-public class HumiditySensorDataDAOImpl implements HumiditySensorDataDAO {
-
+public class DataDAOImpl implements DataDAO {
 
     private static final String CREATE = "INSERT data (sensor_id, data, timestamp) VALUES (?, ?, ?)";
 
     @Override
-    public List<HumiditySensor> findAll() throws SQLException {
+    public ResultSet findAll() throws SQLException {
         return null;
     }
 
     @Override
-    public HumiditySensor findById(Integer integer) throws SQLException {
+    public DataEntity findById(Integer integer) throws SQLException {
         return null;
     }
 
     @Override
-    public int create(HumiditySensor entity) throws SQLException {
+    public int create(DataEntity entity) throws SQLException {
         Connection conn = ConnectionManager.getConnection();
         try (PreparedStatement ps = conn.prepareStatement(CREATE)) {
             ps.setInt(1, entity.getId());
-            ps.setDouble(2, entity.getHumidityValue());
+            ps.setDouble(2, entity.getValue());
             ps.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
             return ps.executeUpdate();
         }
     }
 
     @Override
-    public int update(HumiditySensor entity) throws SQLException {
+    public int update(DataEntity entity) throws SQLException {
         return 0;
     }
 
