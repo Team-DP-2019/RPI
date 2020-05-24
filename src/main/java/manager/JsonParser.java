@@ -26,7 +26,7 @@ public class JsonParser {
 
             Puller puller = new Puller();
 
-            puller.insert((Integer) jsonObject.get("id"), (Integer) jsonObject.get("sensorType"), (Integer) jsonObject.get("temperatureValue"));
+            puller.insert((Integer) jsonObject.get("id"), (Double) jsonObject.get("sensorType"), (Integer) jsonObject.get("temperatureValue"));
 
 //            puller.insert(sensor.getId(), sensor.getSensorType(), ((TemperatureSensor) sensor).getTemperatureValue());
 
