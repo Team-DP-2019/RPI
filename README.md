@@ -9,7 +9,7 @@ mvn clean package
 mysql.server start
 
 in the other terminal
-./target/mqtt-sample publisher '{"id":1,"sensorType":"Temperature","temperatureValue":10.0}'
+./target/mqtt-sample publisher '{"id":1,"sensorType":"1","temperatureValue":10.0}'
 
 
 brew services start grafana
